@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Boolean, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DB_PATH = os.path.join("chores.db")
+DB_PATH = "chores.db"
 os.makedirs("data", exist_ok=True)
 
 # SQLAlchemyの設定
