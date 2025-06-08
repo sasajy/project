@@ -24,6 +24,21 @@ class Chore(Base):
     done = Column(Boolean, default=False)
     date = Column(Date)
 
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+    point = Column(Integer, default=0)
+    level = Column(Integer, default=1)
+
+class PointLog(Base):
+    __tablename__ = "point_logs"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    chore_name = Column(String)
+    date = Column(Date)
+    point = Column(Integer)
+    
 def init_db():
     Base.metadata.create_all(bind=engine)
 
@@ -66,3 +81,5 @@ def load_all_chores_from_csv(path="chores.csv"):
             "done_by":""
         })
     return chores
+
+    
