@@ -3,7 +3,7 @@ import datetime
 import calendar
 from db import init_db, get_chores_for_day, save_chores_for_date, load_all_chores_from_csv
 import requests
-from ui import render_task_card
+from ui import render_task_card,render_task_card1
 from db1 import init_db1, add_user, add_points, get_points, get_points, get_daily_points
 import pandas as pd
 import altair as alt
@@ -204,25 +204,24 @@ elif page == "訂正":
     st.session_state.count_point = 0
     # UI表示
     st.header("Tasks_訂正")
-    search_date = st.date_input("検索したい日付を選んでください", value=datetime.date.today())
+    search_date = st.date_input("訂正したい日付を選んでください", value=datetime.date.today())
     search_date_number = (search_date - first_day).days + 1
     chores2 = get_chores_for_day(search_date_number)
     if not chores2:
         # なければCSVから読み込み＆初期化
         chores2 = load_all_chores_from_csv()
     st.session_state.chores2 = chores2
-        
+    
     for i, task in enumerate(st.session_state.chores2):
         if search_date_number % st.session_state.chores2[i]["mod"] != st.session_state.chores2[i]["amari"]:
             continue
-        done = render_task_card(task, i,f"{search_date_number}")
+        
+        done = render_task_card1(task, i,f"{search_date_number}")
         if st.session_state.chores2[i]["done"] != done:
             if done:
                 st.session_state.count_point += 1
-                st.success(f"{st.session_state.count_point} point subtructed!")
             else:
                 st.session_state.count_point -= 1
-                st.success(f"{st.session_state.count_point} point subtructed!")
         st.session_state.chores2[i]["done"] = done
         if done:
             st.session_state.chores2[i]["done_by"] = username
@@ -235,7 +234,6 @@ elif page == "訂正":
         save_chores_for_date(search_date_number, st.session_state.chores2)
         st.success("Saved!")
         add_points(username, st.session_state.count_point,search_date)
-        st.success(f"{st.session_state.count_point} point subtructed!")
         st.session_state.count_point = 0
         st.session_state.tf = 0
         
