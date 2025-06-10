@@ -169,7 +169,7 @@ if page == "今日の予定":
     for i, task in enumerate(st.session_state.chores1):
         if st.session_state.chores1[i]["done"]:
             continue
-        if today_number % st.session_state.chores1[i]["mod"] != st.session_state.chores1[i]["amari"]:
+        if nextday_number % st.session_state.chores1[i]["mod"] != st.session_state.chores1[i]["amari"]:
             continue
         done = render_task_card(task, i,f"nextday_number")
         if st.session_state.chores1[i]["done"] !=done:
